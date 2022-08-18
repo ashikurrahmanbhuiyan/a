@@ -1,7 +1,18 @@
 import logo from './logo.svg';
 import './App.css';
+import { useEffect, useState } from 'react';
+import Country from './components/country/country';
+import { Button } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.css';
  
 function App() {
+  const [Countries,setCountries] = useState([]);
+  useEffect(()=>{
+    fetch('https://restcountries.com/v3.1/all')
+    .then(res=>res.json())
+    .then(data=> setCountries(data))
+    .catch(error=>console.log())
+  },[])
   return (
     <div className="App">
       <header className="App-header">
@@ -17,6 +28,13 @@ function App() {
         >
           Learn React
         </a>
+        <button className='btn btn-primary'>Click Me</button>
+        <Button variant='dark'>Click</Button>
+        <ul>
+          {Countries.map(country => (
+            <Country country={country}></Country>
+          ))}
+        </ul>
       </header>
     </div>
   );
